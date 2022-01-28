@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9,user-scalable=no,maximum-scale=0.93">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Josefin+Sans&family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+    <title>Mindmath book</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            margin: 45px 150px 60px;
+            justify-content: space-between;
+            max-width: 1140px;
+            position: relative;
+            top: 10%;
+            left:36%;
+            transform: translate(-51%,0%);
+            /*rgb(250, 162, 177)*/;
+        }
+        header #name{
+            display: flex;
+            font-size: 45px;  
+        }
+        header #logo{
+            margin: 15px 15px 0 0;
+        }
+        header #mind{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            border-bottom: 4.2px solid rgb(255, 137, 137);
+            color: rgb(14, 138, 187);
+        }
+        header #math{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            color: rgb(255, 137, 137);
+            border-bottom: 4.2px solid rgb(14, 138, 187);
+        }
+        header #nav{
+            display: flex;
+        }
+        #nav a{
+            text-decoration: none;
+            display: block;
+            font-size: 27px;
+            margin: 42px 42px 0px;
+            color: #000;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        #nav a:hover{
+            color: darkcyan;
+        }
+        #nav a::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: -99px;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+        #nav a:hover::after{
+            left: 0;
+            transition:  .3s all ease;
+        }
+        #nav #book{
+            color: darkcyan;
+        }
+        #nav #book::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: 0;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+
+        /*book*/
+        #bookL{
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Josefin Sans', sans-serif;
+            text-decoration: underline;
+        }
+        #pages_list{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .t-Pages{
+            height: 168px;
+            width: 164.1px;
+            background: rgb(14, 138, 187);/*rgb(77, 135, 241)*/
+            color: #fff;
+            font-size: 51px;
+            text-align: center;
+            line-height: 168px;/**/
+            border: 1px solid #ccc;
+            margin: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .t-Pages .com{
+            position: absolute;
+            font-size: 24px;
+            text-align: center;
+            top: 45px;
+            left: 15%;
+            visibility: hidden;
+        }
+        .t-Pages:hover{
+            background: rgb(45, 174, 224);
+        }
+        /*{
+            display: none;
+        }*/
+        #page, #pages_list.gone, #header.gone, #book.gone, #bookL.gone{
+            display: none;
+        }
+
+        /*abacus styling*/
+        #page.show{
+            display: block;
+            height: 100vh;
+            width: 100%;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        #queBox{
+            border: 4.5px solid rgb(14, 138, 187);
+            width: 510px;
+            margin: 66px auto;
+            border-radius: 12px;
+            padding-bottom: 33px;
+        }
+        #ansRW{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 33px;
+            padding: 18px 24px;
+            background: rgb(14, 138, 187);
+            font-size: 24px;
+            color: white;
+        }
+        #ques{
+            display: block;
+            text-align: center;
+            font-size: 42px;
+            background: rgb(14, 138, 187);
+            height: 51px;
+            line-height: 57px;
+            color: white;
+            margin-top: -3px;
+            border-radius: 9.9px 9.9px 0 0;
+        }
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 39px;
+        }
+        #abacus_frame{
+            height: 236px;
+            border: 6px solid black;
+            border-radius: 6px;
+            width: 180px;
+            position: relative;
+        }
+        #abacus_frame::after{
+            content: "";
+            position: absolute;
+            height: 4.5px;
+            width: 100%;
+            background-color: black;
+            margin-top:54px;
+        }
+        .rodes{
+            position: absolute;
+            height: 100%;
+            width: 3px;
+            background-color: #000;
+        }
+        .vertical1{
+            right: 45px;
+        }
+        .vertical2{
+            right: 123px;
+        }
+        .upperbeats{
+            position: absolute;
+            width: 54px;
+            height: 34.2px;
+            left: -24px;
+            background-color: crimson;
+            cursor: pointer;
+            border-radius: 4.5px;
+        }
+        .lb{
+            position: absolute;
+            width: 54px;
+            height: 34.2px;
+            background-color: crimson;
+            left: -24px;
+            border-radius: 4.5px;
+            cursor: pointer;
+        }
+        .upperbeats:hover, .lb:hover{
+            background-color: rgb(247, 65, 101);
+        }
+        .lower1{
+            bottom: 108.9px;
+        }
+        .lower2{
+            bottom: 72.6px;
+        }
+        .lower3{
+            bottom: 36.3px;
+        }
+        .lower4{
+            bottom: 0px;
+        }
+        #button{
+            position: absolute;
+            background-color: rgb(0, 202, 238);
+            top: -30px;
+            right: 0;
+            cursor: pointer;
+            font-size: 21px;
+            color: white;
+            padding: 3px 6px 0;
+            overflow: hidden;
+            user-select: none;
+            line-height: 21px;
+        }
+        #button:hover{
+            background-color: rgb(110, 230, 252);
+        }
+        #button.slow{
+            height: 9px;
+            top: -15px;
+        }
+        .down{
+            margin-top: 21px;
+        }
+        .box{
+            font-size: 27px;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            bottom: -33px;
+            left: -3px;
+            font-family:'Courier New', Courier, monospace;
+            user-select: none;
+        }
+        .up{
+            margin-bottom: 24px;
+        }
+
+        /*pages*/
+        #pageHeader{
+            display: flex;
+            justify-content: space-around;
+            align-self: flex-start;
+            width: 100%;
+            background: rgb(64, 147, 224);
+            font-size: 27px;
+            height: 54px;
+            line-height: 54px;
+            color: white;
+        }
+        #leavePage{
+            border: 2.1px solid;
+            margin: 3px 0;
+            line-height: 45px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #leavePage:hover{
+            background: rgb(240, 79, 61);
+        }
+        
+
+        #leaveBox{        
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff;
+            width: 600px;
+            height: 180px;
+            padding: 39px 42px 24px;
+            box-shadow: 0 5px 30px rgba(0,0,0,.30);
+            opacity: 0;
+            transition: 0.3s;
+            visibility: hidden;
+            color: black;
+            z-index: 99;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        #page.active{
+            filter: blur(18px);
+            pointer-events: none;
+            user-select: none;
+        }
+        #leaveBox.active{
+            visibility: visible;
+            opacity: 1;
+            transition: 0.3s;
+        }
+        #btns{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        .lbBtns{
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 21px;
+            background-color: rgb(71, 255, 47);
+            color: white;
+            outline: none;
+            border: none;
+            padding: 9px 15px;
+            cursor: pointer;
+        }
+        #leave{
+            background: crimson;
+        }
+        #checkBtn{
+            left: 3px;
+            top: -30px;
+            position: absolute;
+            background-color: rgb(255, 137, 137);
+            cursor: pointer;
+            font-size: 21px;
+            color: white;
+            padding: 3px 6px 0;
+            overflow: hidden;
+            user-select: none;
+        }
+        #checkBtn:hover{
+           background-color: rgb(250, 101, 101);
+        }
+        #checkBtn.slow{
+            height: 9px;
+            top: -15px;
+        }
+        #pageComplete{        
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff;
+            width: 600px;
+            height: 120px;
+            box-shadow: 0 5px 30px rgba(0,0,0,.30);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            color: black;
+            z-index: 99;
+            font-family: 'Josefin Sans', sans-serif;
+            text-align: center;
+        }
+        #pageComplete h2{
+            margin-top: 27px;
+        }
+        #pageComplete button{
+            display: inline-block;
+            outline: none;
+            border: none;
+            font-size: 18px;
+            padding: 9px;
+            margin-top: 15px;
+            background-color: rgb(64, 252, 64);
+            color: white;
+            cursor: pointer;
+        }
+        #pageComplete.active{
+            opacity: 1;
+            visibility: visible;
+            transition: 0.3s;
+        }
+        @media(min-width:1150px){
+            header{
+                left: 50%;
+                transform: translate(-60%,0%);
+            }
+        }
+        @media(max-width:950px){
+            header{
+                margin: 45px 30px 60px;
+            }
+            #nav a{
+                margin: 42px 24px 0px;
+            }
+            header{
+                left: 36%;
+                transform: translate(-40%,0%);
+            }
+        }
+        @media only screen and (max-width:700px) and (orientation:portrait) {
+            body{
+                margin:0;
+                overflow:hidden;
+            }
+            .wrapper{
+                transform: rotate(90deg);
+                transform-origin:bottom left;
+                position:absolute;
+                top: -90vw;
+                left: 0;
+                height:96vw;
+                width: 96vh;
+                overflow:auto;
+            }
+            header{
+                margin-top: 6px 0 auto;
+                top: 0%;
+            }#nav a {
+                margin: 42px 15px 0px;
+            }
+        }    
+        @media only screen and (max-height:700px) /*and (max-width:320px) and (max-width:700px)*/ and (orientation:landscape){
+            header{
+                top: 0%;
+                margin-top: 0;
+            }
+            #queBox{
+                border: 4.5px solid rgb(14, 138, 187);
+                width: 510px;
+                margin: 9px auto;
+                border-radius: 12px;
+                padding-bottom: 33px;
+            }
+        }
+            /*header{
+                margin: 45px 0px 60px;
+            }
+            #nav a{
+                margin: 42px 0px 0px;
+            }*/
+        
+        /*@media  screen and (max-width:700px) and (orientation:landscape) {
+            body{
+                margin:0;
+                overflow:hidden;
+            }
+            .wrapper{
+                transform: rotate(90deg);
+                transform-origin:bottom left;
+                position:absolute;
+                left: 0;
+                height:96vw;
+                width: 96vh;
+                color:#fff;
+                overflow:auto;
+            }
+        }*/
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <header id="header">
+        <!--<a href="https://www.flaticon.com/free-icons/abacus" title="abacus icons">Abacus icons created by iconixar - Flaticon</a>-->
+        <div id="name">
+            <div id="logo"><img src="/images/abacusNew.png" alt="" width="51" height="51"></div>
+            <div><span id="mind">Mind</span><span id="math">Math</span></div>
+        </div>
+        <!--div id="header" style="user-select: none;">Mindmath
+            <i id="menu_bar" class="fas fa-bars"></i>
+        </div-->
+        <nav id="nav">
+            <a href="home.html">Home</a>
+            <a href="abacus.html">Abacus</a>
+            <a id="book" href="book.html">Book</a>
+        </nav>
+    </header>
+    <div> <!--div class="pages">
+
+            </div-->
+        <h1 id="bookL">Book <span id="level">Level</span> 1</h1>
+        <div id="pages_list">
+            <div class="t-Pages" onclick = pageNumber(page1,1)>1 <br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page2,2)>2 <br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page3,3)>3 <br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page4,4)>4<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page5,5)>5<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page6,6)>6<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page7,7)>7<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page8,8)>8<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page9,9)>9<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page10,10)>10<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page11,11)>11<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page12,12)>12<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page13,13)>13<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page14,14)>14<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page15,15)>15<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page16,16)>16<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page17,17)>17<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page18,18)>18<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page19,19)>19<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page20,20)>20<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page21,21)>21<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page22,22)>22<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page23,23)>23<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page24,24)>24<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page25,25)>25<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page26,26)>26<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page27,27)>27<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page28,28)>28<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page29,29)>29<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page30,30)>30<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page31,31)>31<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page32,32)>32<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page33,33)>33<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page34,34)>34<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page35,35)>35<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page36,36)>36<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page37,37)>37<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page38,38)>38<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page39,39)>39<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page40,40)>40<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page41,41)>41<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page42,42)>42<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page43,43)>43<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page44,44)>44<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page45,45)>45<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page46,46)>46<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page47,47)>47<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page48,48)>48<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page49,49)>49<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page50,50)>50<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page51,51)>51<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page52,52)>52<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page53,53)>53<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page54,54)>54<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page55,55)>55<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page56,56)>56<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page57,57)>57<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page58,58)>58<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page59,59)>59<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page60,60)>60<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page61,61)>61<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page62,62)>62<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page63,63)>63<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page64,64)>64<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page65,65)>65<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page66,66)>66<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page67,67)>67<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page68,68)>68<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page69,69)>69<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page70,70)>70<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page71,71)>71<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page72,72)>72<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page73,73)>73<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page74,74)>74<br> <p class="com">(Completed)</p></div>
+            <div class="t-Pages" onclick = pageNumber(page75,75)>75<br> <p class="com">(Completed)</p></div>
+        </div>
+        <div id="page">
+            <div id="pageHeader">
+                <div id="headBl">Page No. <span id="pageNum"></span></div>
+                <div id="totalQue">Total Question : <span id="number"></span></div>
+                <div id="leavePage">Leave Page</div>
+            </div>
+          
+            <div id="queBox">
+                <div id="ques">
+
+                </div>
+                <div id="container">
+                    <div id="abacus_frame">
+                        <div id="checkBtn">C</div>
+                        <div id="button">R</div>
+                        <div class="rodes vertical1">
+                            <div class="upperbeats"></div>
+                            <div class="lb lower1"></div>
+                            <div class="lb lower2"></div>
+                            <div class="lb lower3"></div>
+                            <div class="lb lower4"></div>
+                            <div class="box">0</div>
+                            <div class="collect"></div>
+                        </div>
+                       
+                        <div class="rodes vertical2">
+                            <div class="upperbeats"></div>
+                            <div class="lb lower1"></div>
+                            <div class="lb lower2"></div>
+                            <div class="lb lower3"></div>
+                            <div class="lb lower4"></div>
+                            <div class="box">0</div>
+                            <div class="collect"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div id="leaveBox">
+            <h3>If you leave page now than you result of this page will not be save.
+                did you want to leave?
+            </h3>
+            <div id="btns">
+                <button class="lbBtns" id="stay">Stay</button>
+                <button class="lbBtns" id="leave">Leave</button>
+            </div>
+        </div>
+        <div id="pageComplete">
+           <h2 id="speak">Well Done Page <span id="pageNum2"></span> is Complete</h2>
+           <button id="goBack">Go Back</button>
+        </div>
+    </div>
+</div>
+    <script src="questions.js"></script>
+    <script src="pages.js"></script>
+<script>
+    //function() {
+    //document.documentElement.requestFullScreen();
+    //screen.orientation.lock("portrait-primary");
+    //}, false);
+    //if(window.innerWidth < 700){
+    //    screen.orientation.lock("landscape");
+    //}
+    //screen.orientation.lock('landscape');
+    //var myScreenOrientation = window.screen.orientation;
+    //myScreenOrientation.lock("landscape");
+    let leavePage = document.getElementById("leavePage");
+    let leaveBox = document.getElementById("leaveBox");
+    leavePage.onclick = ()=>{
+        leaveBox.classList.add("active");
+        page.classList.add("active");
+    }
+    let stayBtn = document.getElementById("stay");
+    let leaveBtn = document.getElementById("leave");
+    stayBtn.onclick = ()=>{
+        leaveBox.classList.remove("active");
+        page.classList.remove("active")
+    }
+    leaveBtn.onclick = ()=>{
+        page.classList.remove("show");
+        pages_list.classList.remove("gone");
+        header.classList.remove("gone");
+        bookLevel.classList.remove("gone");
+        leaveBox.classList.remove("active");
+        window.location.reload();
+    }
+
+</script>
+</body>
+</html>

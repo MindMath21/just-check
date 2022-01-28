@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=0.93">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Josefin+Sans&family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            margin: 39px 150px 60px;
+            justify-content: space-between;
+            max-width: 1140px;
+            position: relative;
+            top: 10%;
+            left:36%;
+            transform: translate(-51%,0%);
+        }
+
+        header #name{
+            display: flex;
+            font-size: 45px;  
+        }
+        header #logo{
+            margin: 15px 15px 0 0;
+        }
+        header #mind{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            border-bottom: 4.2px solid rgb(255, 137, 137);
+            color: rgb(14, 138, 187);
+        }
+        header #math{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            color: rgb(255, 137, 137);
+            border-bottom: 4.2px solid rgb(14, 138, 187);
+        }
+        header #nav{
+            display: flex;
+        }
+        #nav a{
+            text-decoration: none;
+            display: block;
+            font-size: 27px;
+            margin: 42px 42px 0px;
+            color: #000;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        #nav a:hover{
+            color: darkcyan;
+        }
+        #nav a::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: -99px;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+        #nav a:hover::after{
+            left: 0;
+            transition:  .3s all ease;
+        }
+        #nav #home{
+            color: darkcyan;
+        }
+        #nav #home::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: 0;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+        /*home page*/
+        #lastwork,#todaywork{
+            resize: none;
+            outline: none;
+            border-radius: 12px;
+            font-size: 16.9px;
+            padding: 6px 12px;
+            color: white;
+            background: rgb(24, 188, 253);
+            width: 360px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+        textarea::-webkit-scrollbar{
+            display: none;
+        }
+        #todaywork{
+            background: rgb(255, 106, 106);
+        }
+        h2{
+            font-family: 'Caveat', cursive;
+            font-weight: 300;
+            text-align: center;
+            font-size: 39px;
+            color: rgb(24, 188, 253);
+        }
+        #learning{
+            top: 0%;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%,0%);
+            width: 90%;
+            min-width: 300px;
+            margin-top: 150px;
+            max-width: 900px;
+        }
+        #learning_boxes{
+            display: flex;
+            justify-content: space-around;
+        }
+        #join_class{
+            position: relative;
+        }
+        #join_class button{
+            display: block;
+            max-width: 750px;
+            width: 93%;
+            font-size: 18px;
+            margin: 33px auto 0;
+            padding: 9px 0;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2.1px;
+            background: linear-gradient(90deg ,rgb(3, 170, 120) , rgb(2, 208, 245),rgb(255, 106, 106));
+            font-weight: 600;
+        }
+        #join_class button:hover{
+            background: linear-gradient(90deg ,rgb(255, 106, 106) ,rgb(3, 170, 120) , rgb(2, 94, 110), rgb(255, 106, 106) );
+            background-size: 600%;
+        }
+        #join_class button:before{
+            content: '';
+            position: absolute;
+            background: inherit;
+            top: -3px;
+            left: -3px;
+            bottom: -3px;
+            right: -3px;
+            filter:blur(33px);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #join_class button:hover:before{
+            opacity: 1;
+            z-index: -1;
+        }
+        button:hover{
+            z-index: 1;
+            animation: glow 7.5s linear infinite;
+        }
+        @keyframes glow{
+            0%{
+                background-position: 0%;
+            }
+            100%{
+                background-position: 600%;
+            }
+        }
+        #header.gone, #book.gone{
+            display: none;
+        }
+        @media(min-width:1150px){
+            header{
+                left: 50%;
+                transform: translate(-60%,0%);
+            }
+        }
+        @media(max-width:950px){
+            header{
+                margin: 45px 30px 60px;
+            }
+            #nav a{
+                margin: 42px 24px 0px;
+            }
+            #lastwork,#todaywork{
+                width: 300px;
+            }
+            header{
+                left: 36%;
+                transform: translate(-40%,0%);
+            }
+        }
+        /*@media only screen and (pointer: coarse) and (min-width: 320px) and (max-width: 700px) and (orientation: landscape) {
+          html {
+            transform: rotate(-90deg);
+            transform-origin: left top;
+            width: 100vh;
+            overflow-x: hidden;
+            position: absolute;
+            top: 100%;
+            left: 0;
+          }
+        }*/
+        @media only screen and (max-width:700px) and (orientation:portrait) {
+            body{
+                margin:0;
+                overflow:hidden;
+            }
+            .wrapper{
+                transform: rotate(90deg);
+                transform-origin:bottom left;
+                position:absolute;
+                top: -90vw;
+                left: 0;
+                height:96vw;
+                width: 96vh;
+                color:#fff;
+                overflow:auto;
+            }
+            header{
+                margin-top: 6px 0 auto;
+                top: 0%;
+            }#nav a {
+                margin: 42px 15px 0px;
+            }#lastwork,#todaywork{
+                width: 270px;
+                height: 210px;
+            }h2{
+                font-size: 33px;
+            }
+        } 
+        @media only screen and (max-height:700px) /*and (max-width:700px)*/  and (orientation:landscape){
+            header{
+                margin-top: 0px;
+            }
+            #learning{
+                top: 24%;
+                margin: 0;
+            }
+            #lastwork,#todaywork{
+                width: 270px;
+                height: 210px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div id="name">
+                <div id="logo"><img src="/images/abacusNew.png" alt="" width="51" height="51"></div>
+                <div><span id="mind">Mind</span><span id="math">Math</span></div>
+            </div>
+            <!--div id="header" style="user-select: none;">Mindmath
+                <i id="menu_bar" class="fas fa-bars"></i>
+            </div-->
+            <nav id="nav">
+                <a id="home" href="home.html">Home</a>
+                <a href="abacus.html">Abacus</a>
+                <a href="book.html">Book</a>
+            </nav>
+        </header>
+        <div id="learning">
+            <div id="learning_boxes">
+                <div id="last_class_learning">
+                    <h2 style="color: rgb(255, 106, 106);">In last class we learn -</h2>
+                    <textarea id="lastwork" readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic cumque ipsum, repellat quasi dolorum fugiat, nemo aliquam, a itaque officiis iusto nam ipsam eligendi laboriosam delectus quibusdam?</textarea>
+                </div>
+                <div id="today_class_learning">
+                    <h2>In next class we learn -</h2>
+                    <textarea  id="todaywork" readonly>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit ullam ea pariatur, vero voluptatum dolorum sit natus commodi quas deleniti, vel, quibusdam unde quos fugit reprehenderit molestiae nesciunt officia ipsam culpa laboriosam ipsum quasi. Aspernatur ut nesciunt, distinctio corporis sapiente magnam labore quidem, vitae similique molestiae, odit consectetur voluptas atque odio. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit, pariatur doloremque cumque deleniti eum alias, quam, rerum delectus debitis eos quod adipisci saepe tempora aut libero? Consequatur, quam dolorum amet voluptatum sint et magni distinctio? lorem30</textarea>
+                </div>
+            </div>
+            <div id="join_class">
+                <Button> Join class Now</Button>
+            </div>
+            <!--style="background: rgb(255, 106, 106); color: white"-->
+        </div>
+    </div>
+</body>
+</html>

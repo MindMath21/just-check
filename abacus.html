@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=0.93">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Josefin+Sans&family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+    <!--script src="https://kit.fontawesome.com/a076d05399.js"></script-->
+    <title>Mindmath Abacus</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            margin: 45px 150px 60px;
+            justify-content: space-between;
+            max-width: 1140px;
+            position: relative;
+            top: 10%;
+            left:36%;
+            transform: translate(-51%,0%);
+            /*rgb(250, 162, 177)*/;
+        }
+        header #name{
+            display: flex;
+            font-size: 45px;  
+        }
+        header #logo{
+            margin: 15px 15px 0 0;
+        }
+        header #mind{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            border-bottom: 4.2px solid rgb(255, 137, 137);
+            color: rgb(14, 138, 187);
+        }
+        header #math{
+            font-family: 'Mochiy Pop P One', sans-serif;
+            color: rgb(255, 137, 137);
+            border-bottom: 4.2px solid rgb(14, 138, 187);
+        }
+        header #nav{
+            display: flex;
+        }
+        #nav a{
+            text-decoration: none;
+            display: block;
+            font-size: 27px;
+            margin: 42px 42px 0px;
+            color: #000;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        #nav a:hover{
+            color: darkcyan;
+        }
+        #nav a::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: -99px;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+        #nav a:hover::after{
+            left: 0;
+            transition: .3s all ease;
+        }
+        #nav #abacus{
+            color: darkcyan;
+        }
+        #nav #abacus::after{
+            content: '';
+            width: 99px;
+            height: 2.1px;
+            position: absolute;
+            left: 0;
+            bottom: 2.1px;
+            background-color: rgb(3, 137, 139);
+            transition:  .3s all ease;
+        }
+
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 54vh;
+            flex-direction: column;
+        }
+        #abacus_frame{
+            border-bottom: 4.5px solid #000;
+            border-top: 4.5px solid #000;
+            min-height: 236px;
+            min-width: 450px;/*441px*/
+            position: relative;
+        }
+        #abacus_frame::after{
+            content: "";
+            position: absolute;
+            height: 4.5px;
+            width: 100%;
+            background-color: black;
+            margin-top: 54px;
+        }
+        .rodes{
+            position: absolute;
+            height: 100%;
+            width: 4.5px;
+            background-color: #000;
+        }
+        .vertical1{
+            right: 36px;
+        }
+        .vertical2{
+            right: 111px;
+        }
+        .vertical3{
+            right: 186px;
+        }
+        .vertical4{
+            right: 261px;
+        }
+        .vertical5{
+            right: 336px;
+        }
+        .vertical6{
+            right: 411px; /*last 405 += now(6)*/
+        }
+        .beats{
+            position: absolute;
+            width: 54px;
+            height: 34.2px;
+            left: -24px;
+            background-color: crimson;
+            cursor: pointer;
+            border-radius: 4.5px;
+        }
+        .beats:hover{
+            background-color: rgb(247, 65, 101);
+        }
+        .lower1{
+            bottom: 108.9px;
+        }
+        .lower2{
+            bottom: 72.6px;
+        }
+        .lower3{
+            bottom: 36.3px;
+        }
+        .lower4{
+            bottom: 0px;
+        }
+        #button{
+            position: absolute;
+            background-color: rgb(0, 202, 238);
+            top: -36px;
+            right: 0;
+            cursor: pointer;
+            font-size: 27px;
+            color: white;
+            padding: 0 12px;
+            overflow: hidden;
+            user-select: none;
+        }
+        #button:hover{
+            background-color: rgb(110, 230, 252);
+        }
+        #button.slow{
+            height: 15px;
+            top: -19.5px;
+        }
+        .down{
+            margin-top: 21px;
+        }
+        .box{
+            font-size: 27px;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            bottom: -33px;
+            left: -3px;
+            font-family:'Courier New', Courier, monospace;
+        }
+        .up{
+            margin-bottom: 27px;
+        }
+
+        #join_class{
+            position: relative;
+            width: 93%;
+            margin-top: 45px;
+            max-width: 720px;
+        }
+        #join_class button:before{
+            content: '';
+            position: absolute;
+            background:inherit;
+            top: -3px;
+            left: -3px;
+            bottom: -3px;
+            right: -3px;
+            filter:blur(33px);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #join_class button{
+            display: block;
+            width: 93%;
+            font-size: 18px;
+            margin: auto auto;
+            padding: 9px 0;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2.1px;
+            background: linear-gradient(90deg ,rgb(3, 170, 120) , rgb(2, 208, 245),rgb(255, 106, 106));
+            font-weight: 600;
+        }
+        #join_class button:hover{
+            background: linear-gradient(90deg ,rgb(255, 106, 106) ,rgb(3, 170, 120) , rgb(2, 94, 110), rgb(255, 106, 106) );
+            background-size: 600%;
+        }
+        #join_class button:hover:before{
+            opacity: 1;
+            z-index: -1;
+        }
+        button:hover{
+            z-index: 1;
+            animation: glow 7.5s linear infinite;
+        }
+        @keyframes glow{
+            0%{
+                background-position: 0%;
+            }
+            100%{
+                background-position: 600%;
+            }
+        }
+        #header.gone, #book.gone{
+            display: none;
+        }
+
+        /*formula table design*/
+#formula_btn{
+    position: absolute;
+    left: 3px;
+    top: -36px;
+    cursor: pointer;
+    background: rgb(255, 137, 137);
+    font-size: 27px;
+    color: white;
+    padding: 0 12px;
+}
+#formula_btn:hover{
+    background: rgb(250, 101, 101);
+}
+#formula_table{
+    position: absolute;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    top: 0;
+    transition: all 1.5s;
+    z-index: 99;
+}
+#formula{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 9px;
+    transition: all 1.5s;
+}
+#formula_table.click{
+    left: 0;
+    transition: all 1.5s;
+}
+h1{
+    text-align: center;
+    color: #fff;
+    padding-top: 6px;
+}
+#close{
+    color: #fff;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    cursor: pointer;
+}
+.small{
+    margin: 0 18px;
+}
+.small h3{
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 21px;
+    color: #fff;
+}
+.small code{
+    display: block;
+    font-size: 21px;
+    padding: 9px 15px;
+    color: white;
+    background-color: rgb(10, 199, 199);
+    font-weight: 600;
+}
+#smallf code{
+    background-color: cornflowerblue;
+}
+#bigb code{
+    background-color: dodgerblue;
+}
+#bigs code{
+    background-color:lightseagreen;
+}
+        
+        @media(min-width:1150px){
+            header{
+                left: 50%;
+                transform: translate(-60%,0%);
+            }
+        }
+        @media(max-width:950px){
+            header{
+                margin: 45px 30px 60px;
+            }
+            #nav a{
+                margin: 42px 24px 0px;
+            }
+            header{
+                left: 36%;
+                transform: translate(-40%,0%);
+            }
+        }
+        @media only screen and (max-width:700px) and (orientation:portrait) {
+            body{
+                margin:0;
+                overflow:hidden;
+            }
+            .wrapper{
+                transform: rotate(90deg);
+                transform-origin:bottom left;
+                position:absolute;
+                top: -90vw;
+                left: 0;
+                height:96vw;
+                width: 96vh;
+                overflow:auto;
+            }
+            header{
+                margin-top: 0px 0 auto;
+                top: 0%;
+            }#nav a {
+                margin: 42px 15px 0px;
+            }
+            /*header{
+                margin: 45px 15px 60px;
+            }
+            #nav a{
+                margin: 42px 12px 0px;
+            }*/
+        }
+        @media screen and (max-height:700px) /*and (max-width:700px)*/ and (orientation:landscape){
+            header{
+                margin-top: 0px;
+            }
+            #container{
+                margin-top: 51px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div id="name">
+                <div id="logo"><img src="/images/abacusNew.png" alt="" width="51" height="51"></div>
+                <div><span id="mind">Mind</span><span id="math">Math</span></div>
+            </div>
+            <!--div id="header" style="user-select: none;">Mindmath
+                <i id="menu_bar" class="fas fa-bars"></i>
+            </div-->
+            <nav id="nav">
+                <a href="home.html">Home</a>
+                <a id="abacus" href="abacus.html">Abacus</a>
+                <a href="book.html">Book</a>
+            </nav>
+        </header>
+        
+            
+        <div id="container">
+            <div id="abacus_frame">
+                <div id="formula_btn">F<!--i class="fas fa-arrow-circle-right"></i--></div>
+                <div id="button">R</div>
+                <div class="rodes vertical1">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+                
+                <div class="rodes vertical2">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+                
+                <div class="rodes vertical3">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+    
+                <div class="rodes vertical4">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+    
+                <div class="rodes vertical5">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+    
+                <div class="rodes vertical6">
+                    <div class="upperbeats beats"></div>
+                    <div class="lb lower1 beats"></div>
+                    <div class="lb lower2 beats"></div>
+                    <div class="lb lower3 beats"></div>
+                    <div class="lb lower4 beats"></div>
+                    <div class="box">0</div>
+                    <div class="collect"></div>
+                </div>
+            </div>
+            <div id="formula_table">
+                <h1>Formula Table</h1>
+                <div id="formula">
+                    <div class="small" id="small-">
+                        <h3>Small Friend[-]</h3>
+                        <code>-4 = -5 +1</code><br>
+                        <code>-3 = -5 +2</code><br>
+                        <code>-2 = -5 +3</code><br>
+                        <code>-1 = -5 +4</code><br>
+                    </div>
+                    <div class="small" id="smallf">
+                        <h3>Small Friend[+]</h3>
+                        <code>+4 = +5 -1</code><br>
+                        <code>+3 = +5 -2</code><br>
+                        <code>+2 = +5 -3</code><br>
+                        <code>+1 = +5 -4</code><br>
+                    </div>
+                    <div class="small" id="bigs">
+                        <h3>Big Friend[+]</h3>
+                        <code>+9 = +10 -1</code><br>
+                        <code>+8 = +10 -2</code><br>
+                        <code>+7 = +10 -3</code><br>
+                        <code>+6 = +10 -4</code><br>
+                        <code>+5 = +10 -5</code><br>
+                        <code>+4 = +10 -6</code><br>
+                        <code>+3 = +10 -7</code><br>
+                        <code>+2 = +10 -8</code><br>
+                        <code>+1 = +10 -9</code><br>
+                    </div>
+                    <div class="small" id="bigb">
+                        <h3>Big Friend[+]</h3>
+                        <code>-9 = -10 +1</code><br>
+                        <code>-8 = -10 +2</code><br>
+                        <code>-7 = -10 +3</code><br>
+                        <code>-6 = -10 +4</code><br>
+                        <code>-5 = -10 +5</code><br>
+                        <code>-4 = -10 +6</code><br>
+                        <code>-3 = -10 +7</code><br>
+                        <code>-2 = -10 +8</code><br>
+                        <code>-1 = -10 +9</code><br>
+                    </div>
+                </div>
+                <div id="close"><!--i class="fas fa-times-circle"></i--><img src="/images/cross.png" width="51px" height="51px" alt=""></div>
+            </div>
+        <div id="join_class">
+            <Button> Join class Now</Button>
+        </div>
+        </div>
+    </div>
+        <!--a href="https://www.flaticon.com/free-icons/wrong" title="wrong icons">Wrong icons created by DinosoftLabs - Flaticon</a-->
+        <script>
+            let formula_btn = document.getElementById("formula_btn");
+            let formulas = document.getElementById("formula_table");
+            let closebtn = document.getElementById("close");
+            formula_btn.onclick = function(){
+                formulas.classList.toggle("click");
+            }
+            closebtn.onclick = function(){
+                formulas.classList.remove("click");
+                formula_btn.style.display = "block";
+            }
+
+
+            let Up = document.getElementsByClassName("upperbeats");
+            let box = document.getElementsByClassName("box");
+            let rodes = document.getElementsByClassName("rodes")
+            let lower1 = document.getElementsByClassName("lower1");
+            let lower2 = document.getElementsByClassName("lower2");
+            let lower3 = document.getElementsByClassName("lower3");
+            let lower4 = document.getElementsByClassName("lower4");
+            let button = document.getElementById("button");
+            let collect = document.getElementsByClassName("collect")
+             
+            for(let c = 0; c < collect.length; c++){
+                collect[c].value = 0;
+            }
+            
+            function upper(i){
+                Up[i].addEventListener("click",()=>{
+                    if(!Up[i].classList.contains("down")){
+                        Up[i].classList.add("down");
+                        collect[i].value += 5;
+                    }else if(Up[i].classList.contains("down")){
+                       Up[i].classList.remove("down");
+                       collect[i].value += -5;
+                    }
+                    box[i].innerHTML = collect[i].value;
+                });
+            };upper(0);upper(1);upper(2);upper(3);upper(4);upper(5);
+            
+            // first beat
+             function firstbeat(i){
+                lower1[i].addEventListener("click",()=>{//first beat
+                    if(!lower1[i].classList.contains("up")){
+                        lower1[i].classList.add("up")
+                        collect[i].value += 1;//perfect 
+                    }else if(lower1[i].classList.contains("up") && !lower2[i].classList.contains("up")){
+                        lower1[i].classList.remove("up")
+                        collect[i].value += -1;//done
+                    }else if(lower2[i].classList.contains("up") && !lower3[i].classList.contains("up")){
+                        lower1[i].classList.remove("up");
+                        lower2[i].classList.remove("up");
+                        collect[i].value += -2;//done
+                    }else if(lower3[i].classList.contains("up") && !lower4[i].classList.contains("up")){
+                        lower1[i].classList.remove("up");
+                        lower2[i].classList.remove("up");
+                        lower3[i].classList.remove("up");
+                        collect[i].value += -3;
+                    }else if(lower3[i].classList.contains("up") && lower4[i].classList.contains("up")){
+                        lower1[i].classList.remove("up");
+                        lower2[i].classList.remove("up");
+                        lower3[i].classList.remove("up");
+                        lower4[i].classList.remove("up");
+                        collect[i].value += -4;
+                    }
+                    box[i].innerHTML = collect[i].value;
+                });
+            };firstbeat(0);firstbeat(1);firstbeat(2);firstbeat(3);firstbeat(4);firstbeat(5);
+            //up down complete
+            
+             function secondbeat(i){
+                lower2[i].addEventListener("click",()=>{//first beat
+                    if(lower1[i].classList.contains("up") && !lower2[i].classList.contains("up")){
+                        lower2[i].classList.add("up"); 
+                        collect[i].value += 1;
+                    }else if(lower1[i].classList.contains("up") && lower2[i].classList.contains("up") && !lower3[i].classList.contains("up")){
+                        lower2[i].classList.remove("up");
+                        collect[i].value += -1;
+                    }else if(!lower1[i].classList.contains("up")){
+                        lower1[i].classList.add("up");
+                        lower2[i].classList.add("up");
+                        collect[i].value += 2;
+                    }else if(lower3[i].classList.contains("up") && !lower4[i].classList.contains("up")){
+                        lower2[i].classList.remove("up");
+                        lower3[i].classList.remove("up");
+                        collect[i].value += -2;
+                    }else if(lower4[i].classList.contains("up")){
+                        lower2[i].classList.remove("up");
+                        lower3[i].classList.remove("up");
+                        lower4[i].classList.remove("up");
+                        collect[i].value += -3;
+                    }
+                    box[i].innerHTML = collect[i].value;
+                });
+            };secondbeat(0);secondbeat(1);secondbeat(2);secondbeat(3);secondbeat(4);secondbeat(5);
+            //complete up and down
+            
+            function thirdbeat(i){
+                lower3[i].addEventListener("click",()=>{//first beat
+                    if(lower2[i].classList.contains("up") && !lower3[i].classList.contains("up")){
+                        lower3[i].classList.add("up");
+                        collect[i].value += 1;
+                    }else if(!lower1[i].classList.contains("up")){
+                        lower1[i].classList.add("up");
+                        lower2[i].classList.add("up");
+                        lower3[i].classList.add("up");
+                        collect[i].value += 3;
+                    }else if(lower3[i].classList.contains("up") && !lower4[i].classList.contains("up")){
+                        lower3[i].classList.remove("up");
+                        collect[i].value += -1;
+                    }else if(lower1[i].classList.contains("up") && !lower4[i].classList.contains("up")){
+                        lower2[i].classList.add("up");
+                        lower3[i].classList.add("up");
+                        collect[i].value += 2;
+                    }else if(lower3[i].classList.contains("up") && lower4[i].classList.contains("up")){
+                        lower3[i].classList.remove("up");
+                        lower4[i].classList.remove("up");
+                        collect[i].value += -2;
+                    }
+                    box[i].innerHTML = collect[i].value;
+                });
+            };thirdbeat(0);thirdbeat(1);thirdbeat(2);thirdbeat(3);thirdbeat(4);thirdbeat(5);
+            //up down complete
+            
+            function fourthbeat(i){
+                lower4[i].addEventListener("click",()=>{//first beat
+                    if(lower3[i].classList.contains("up") && !lower4[i].classList.contains("up")){
+                        lower4[i].classList.add("up");
+                        collect[i].value += 1;
+                    }else if(lower3[i].classList.contains("up") && lower4[i].classList.contains("up")){
+                        lower4[i].classList.remove("up");
+                        collect[i].value += -1;
+                    }else if(!lower1[i].classList.contains("up")){
+                        lower1[i].classList.add("up");
+                        lower2[i].classList.add("up");
+                        lower3[i].classList.add("up");
+                        lower4[i].classList.add("up");
+                        collect[i].value += 4;
+                    }else if(lower1[i].classList.contains("up") && !lower2[i].classList.contains("up")){
+                        lower2[i].classList.add("up");
+                        lower3[i].classList.add("up");
+                        lower4[i].classList.add("up");
+                        collect[i].value += 3;
+                    }else if(lower2[i].classList.contains("up") && !lower3[i].classList.contains("up")){
+                        lower3[i].classList.add("up");
+                        lower4[i].classList.add("up");
+                        collect[i].value += 2;
+                    }
+                    box[i].innerHTML = collect[i].value;
+                });
+            };fourthbeat(0);fourthbeat(1);fourthbeat(2);fourthbeat(3);fourthbeat(4);fourthbeat(5);
+            // complete up and down
+            
+            // button Complete
+            button.addEventListener("click",()=>{
+                let beatupAudio = new Audio("./Audio/beatup.wav")
+                button.classList.add("slow");
+                const allbeats = document.getElementsByClassName("lb")
+                for(let i = 0; i<allbeats.length; i++){
+                   allbeats[i].classList.remove("up");
+                }
+                for(let i = 0; i < Up.length; i++){
+                    Up[i].classList.remove("down");
+                    box[i].innerHTML = 0;
+                    collect[i].value = 0;
+                }
+                beatupAudio.play();
+            })
+            setInterval(function(){button.classList.remove("slow")},240);</script>
+</body>
+</html>
